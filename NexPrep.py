@@ -240,7 +240,7 @@ interview while helping the candidate understand:
 # STREAMLIT UI
 # ---------------------------------------------------------
 
-st.title("NexPrep - Next Step in Your Career")
+st.title("NexPrep - Next Step in Your Career🎓")
 
 
 # ---------------------------------------------------------
