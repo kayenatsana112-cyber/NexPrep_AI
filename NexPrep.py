@@ -16,11 +16,6 @@ from langchain.agents import create_agent
 from langchain.tools import tool
 from langgraph.checkpoint.memory import InMemorySaver
 
-
-# ---------------------------------------------------------
-# SESSION STATE
-# ---------------------------------------------------------
-
 if "document_uploaded" not in st.session_state:
     st.session_state.document_uploaded = False
 
@@ -37,9 +32,6 @@ if "interview_started" not in st.session_state:
     st.session_state.interview_started = False
 
 
-# ---------------------------------------------------------
-# PROCESS DOCUMENT
-# ---------------------------------------------------------
 
 def process_document(path):
 
@@ -68,17 +60,10 @@ def process_document(path):
 
     st.session_state.vector_store = vector_db
 
-    # -----------------------------------------------------
-    # LLM
-    # -----------------------------------------------------
-
+    
     llm = ChatGoogleGenerativeAI(
         model="gemini-3.5-flash-lite"
     )
-
-    # -----------------------------------------------------
-    # RETRIEVAL TOOL
-    # -----------------------------------------------------
 
     @tool
     def retrieve_context(query: str):
@@ -99,9 +84,6 @@ def process_document(path):
 
         return context
 
-    # -----------------------------------------------------
-    # SYSTEM PROMPT
-    # -----------------------------------------------------
 
     system_prompt = """
 You are an AI Interview Coach designed to help candidates
@@ -212,15 +194,8 @@ interview while helping the candidate understand:
 """
 
 
-    # -----------------------------------------------------
-    # MEMORY
-    # -----------------------------------------------------
-
     memory = InMemorySaver()
 
-    # -----------------------------------------------------
-    # CREATE AGENT
-    # -----------------------------------------------------
 
     agent = create_agent(
         model=llm,
@@ -236,16 +211,9 @@ interview while helping the candidate understand:
     st.session_state.document_uploaded = True
 
 
-# ---------------------------------------------------------
-# STREAMLIT UI
-# ---------------------------------------------------------
-
 st.title("NexPrep - Next Step in Your Career🎓")
 
 
-# ---------------------------------------------------------
-# PDF UPLOAD
-# ---------------------------------------------------------
 
 if not st.session_state.document_uploaded:
 
@@ -285,9 +253,6 @@ if not st.session_state.document_uploaded:
         st.rerun()
 
 
-# ---------------------------------------------------------
-# DISPLAY PREVIOUS MESSAGES
-# ---------------------------------------------------------
 
 for message in st.session_state.messages:
 
@@ -295,9 +260,6 @@ for message in st.session_state.messages:
         st.markdown(message["content"])
 
 
-# ---------------------------------------------------------
-# START INTERVIEW
-# ---------------------------------------------------------
 
 if (
     st.session_state.document_uploaded
@@ -364,16 +326,8 @@ if (
         st.markdown(ai_response)
 
 
-# ---------------------------------------------------------
-# CHAT INPUT
-# ---------------------------------------------------------
-
 user_input = st.chat_input("Your Answer...")
 
-
-# ---------------------------------------------------------
-# PROCESS USER ANSWER
-# ---------------------------------------------------------
 
 if user_input:
 
